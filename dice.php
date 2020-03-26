@@ -51,12 +51,34 @@ $headers = array();
 }
 $pit = 0;
 $pt = 10;
-$jps = rand(110,150);
-$mjake = number_format(5, 8);
-
 system('clear');
 echo $banner;
 sleep(3);
+system('clear');
+echo "Example Select :1 (fot BTC)\n\n";
+echo "Select Coin You Want Use\n1.BTC\n2.ETH\n3.LTC\n4.DOGE\n5.BCH\n6.DASH\n7.DGB\nSelect : ";
+$coin=trim(fgets(STDIN));
+if($coin == 1){
+	$coin = "BTC";
+}
+else if($coin == 2){
+	$coin = "ETH";
+}
+else if($coin == 3){
+	$coin = "LTC";
+}
+else if($coin == 4){
+	$coin = "DOGE";
+}
+else if($coin == 5){
+	$coin = "BCH";
+}
+else if($coin == 6){
+	$coin = "DASH";
+}
+else if($coin == 7){
+	$coin = "DGB";
+}
 system('clear');
 echo "Config Dice For Faucetpay.io\n";
 echo "Cookie : ";
@@ -72,62 +94,71 @@ $prof = $gp * 100;
 $prof = $prof / 100 * $bet;
 $prof = (int)($prof*100000000) / 100000000;
 $prof = number_format((float)$prof - $bet,8);
-$send = "play=true&coin=DOGE&client_seed=RUUFuGsc5lQPgMXdOVo&bet_amt=".$bet."&profit=".$prof."&payout=".$gp."&winning_chance=".$wcs."&prediction=1";
+EDIT:
+$send = "play=true&coin=".$coin."&client_seed=RUUFuGsc5lQPgMXdOVo&bet_amt=".$bet."&profit=".$prof."&payout=".$gp."&winning_chance=".$wcs."&prediction=1";
 $log = dices($send, $coki);
 $login = json_decode($log);
-$ese = number_format((float)$login->balance +((70 / 100) * $login->balance) ,8);
 if($login->error == 0){
-	$blk = $login->balance;
 	system('clear');
 	echo "Lgoin Success....\n";
-	echo "\nExample Stop If Income : 70%\n";
-	echo "Stop If Income : ";
-	$income=trim(fgets(STDIN));
-	$ese = number_format((float)$login->balance +(($income / 100) * $login->balance) ,8);
-	echo "Warning This Script Only DogeCoin\n";
-	echo "\nPlease Select Your Main Balance To Run This Script\n";
-	echo "1. 1-50 DogeCoin\n2. 60-100 DogeCoin\n3. 200-500 DogeCoin\n4. 700-1000 DogeCoin\n";
-	echo "Please Select a Main Balance Choice : ";
-	$sal=trim(fgets(STDIN));
-	if($sal == 1){
-		$blk = $login->balance;
-		$bets = number_format(0.001, 8);
-		$cb = $jps;
-		$wcmin = 20;
-		$wcmax = 60;
-		$sp = number_format(0.01, 5);
+	$blk = $login->balance;
+	echo "Config For Bet Set\n\n";
+	echo "Example Bet Amount : 0.00000001 (minimum)\n";
+	echo "Bet Amount : ";
+	$bets=trim(fgets(STDIN));
+	echo "Example Up Bet if Lose 100% (2x Bet)\n";
+	echo "Change Bet if Lose : ";
+	$cb=trim(fgets(STDIN));
+	echo "Example Win Chance Min : 10 (minimum)\n";
+	echo "Win Chance Min : ";
+	$wcmin=trim(fgets(STDIN));
+	echo "Example Win Chance Max : 94 (maximum)\n";
+	echo "Win Chance Max : ";
+	$wcmax=trim(fgets(STDIN));
+	echo "Example Result Win Chance : 10 - 94 \n";
+	echo "Win Chance : ".$wcmin." - ".$wcmax." \n";
+	echo "Example Stop If Profit 200.00000000 \n";
+	echo "Stop Profit : ";
+	$sp=trim(fgets(STDIN));
+	echo "Example Refresh on 0.01\n";
+	echo "Refresh on : ";
+	$ref=trim(fgets(STDIN));
+	echo "Example Bet On : 1 (for HI)\n";
+	echo "Bet On \n1.HI\n2.LOW\n3.Random\n";
+	echo "Bet On : ";
+	$pr=trim(fgets(STDIN));
+	if($pr == 1){
+		$prt = "HI";
+		$pr = 1;
+	}
+	if($pr == 2){
+		$prt = "LOW";
+		$pr = 2;
+	}
+	if($pr == 3){
+		$prt = "RANDOM";
 		$pr = rand(1,2);
 	}
-	if($sal == 2){
-		$blk = $login->balance;
-		$bets = number_format(0.003, 8);
-		$cb = $jps;
-		$wcmin = 20;
-		$wcmax = 60;
-		$sp = number_format(0.05, 5);
-		$pr = rand(1,2);
+	system('clear');
+	echo "Result Your Config Bet Set\n\n";
+	echo "Bet Amount : ".$bets."\n";
+	echo "Auto Back to Bet set If WIN";
+	echo "Change Bet If Lose : ".$cb."%\n";
+	echo "Auto Win Chance : ".$wcmin." - ".$wcmax." \n";
+	echo "Auto Stop If Profit : ".$sp."\n";
+	echo "Bet On : ".$prt."\n\n";
+	echo "Press Enter For Start Your Bet Set\nInput 1 For Edit Bet Set";
+	$start=trim(fgets(STDIN));
+	if($start == 1){
+		goto EDIT;
 	}
-	if($sal == 3){
-		$blk = $login->balance;
-		$bets = number_format(0.008, 8);
-		$cb = $jps;
-		$wcmin = 20;
-		$wcmax = 60;
-		$sp = number_format(0.1, 5);
-		$pr = rand(1,2);
-	}
-	if($sal == 4){
-		$blk = $login->balance;
-		$bets = number_format(0.01, 8);
-		$cb = $jps;
-		$wcmin = 20;
-		$wcmax = 60;
-		$sp = number_format(0.8, 5);
-		$pr = rand(1,2);
-	}
-system('clear');
-RBS:
+	system('clear');
+$mjake = number_format(1, 8);
+$cwin = 0;
+$clos = 0;
+RBS:	
 while(true){
+$rg = rand(1,3);
 $bet = number_format($bets,8);
 $wc = number_format(rand($wcmin,$wcmax),2);
 $nas = 95 / $wc;
@@ -137,148 +168,90 @@ $prof = $prof / 100 * $bet;
 $prof = (int)($prof*100000000) / 100000000;
 $prof = number_format((float)$prof - $bet,8);
 $predic = $pr;
-$send = "play=true&coin=DOGE&client_seed=RUUFuGsc5lQPgMXdOVo&bet_amt=".$bet."&profit=".$prof."&payout=".$gp."&winning_chance=".$wc."&prediction=".$predic;
+$send = "play=true&coin=".$coin."&client_seed=RUUFuGsc5lQPgMXdOVo&bet_amt=".$bet."&profit=".$prof."&payout=".$gp."&winning_chance=".$wc."&prediction=".$predic;
 $ga = json_decode(dices($send, $coki),true);
-$tot = number_format($ga['balance'] - $blk, 8);
-$getpre = number_format(($tot / $blk) * 100, 2);
-	if($ga['balance'] >= $ese){
-			echo"\nHappy Today You Are The Lucky One\nCome back tomorrow, don't push too hard\n";
-			$getpre = number_format(($tot / $blk) * 100, 2);
-			echo"\nPrevious balance : ".$blk." -> Balance Now : ".$ga['balance']."\n\n";
-			exit();
-	}
 	if($ga['error'] == 1){
-			echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
-			exit();
+		echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
+		exit();
 	}
 	if($ga['win'] == 1){
-		$pits = number_format($pit + $prof, 8);
-		$tot = number_format($ga['balance'] - $blk, 8);
-		$getpre = number_format(($tot / $blk) * 100, 2);
-		echo "WIN	|| Profit : ".$pits." DOGE	|| Ballance : ".$ga['balance']." DOGE\n";
+		$pits = number_format($ga['balance'] - $blk, 8);
+		$rak = number_format($pit + $prof, 8);
+		$cwin++;
+		echo"\r                                                                                         \r";
+		echo "WIN	|| Profit : ".$rak." {$coin}\n";
+echo "\rWin Streak : ".$cwin." | Lose Streak : ".$clos." | Ballance : ".$ga['balance']." {$coin}\r";
 		if($pits >= $sp){
+			echo "\nCongratulation Your Profit to Target\n\n";
+			exit();
+		}
+		if($rak >= $ref){
+			echo"\r                                                                                         \r";
 			echo "Refresh......\n";
-			if($pits >= $mjake){
-				echo "\nCongratulation Your Get Jakepot \nTotal Income : ".$getpre."% or ".$tot."\n\n";
-				sleep($pr);
-				goto RBS;
-			}
+				if($rak >= $mjake){
+					echo "\nCongratulation Your Get Jakepot \nTotal : ".$rak."\n\n";
+					sleep($rg);
+					goto RBS;
+				}
 			goto RBS;
 		}
-		if($ga['balance'] >= $ese){
-			echo"\nHappy Today You Are The Lucky One\nCome back tomorrow, don't push too hard\n";
-			$getpre = number_format(($tot / $blk) * 100, 2);
-			echo"\nPrevious balance : ".$blk." -> Balance Now : ".$ga['balance']."\n\n";
-			exit();
-		}
-		if($ga['error'] == 1){
-			echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
-			exit();
-		}
+		goto RBS;
 	}
 	if($ga['win'] == 0){
-		$pits = number_format($pit - $bet, 8);
-		$tot = number_format($ga['balance'] - $blk, 8);
-		$getpre = number_format(($tot / $blk) * 100, 2);
-		echo "LOSE	|| Profit : ".$pits." DOGE	|| Ballance : ".$ga['balance']." DOGE\n";
-		if($pits >= $sp){
-			echo "Refresh......\n";
-			if($pits >= $mjake){
-				echo "\nCongratulation Your Get Jakepot \nTotal Income : ".$getpre."% or ".$tot."\n\n";
-				sleep($pr);
-				goto RBS;
-			}
-			goto RBS;
-		}
-		if($ga['balance'] >= $ese){
-			echo"\nHappy Today You Are The Lucky One\nCome back tomorrow, don't push too hard\n";
-			$getpre = number_format(($tot / $blk) * 100, 2);
-			echo"\nPrevious balance : ".$blk." -> Balance Now : ".$ga['balance']."\n\n";
-			exit();
-		}
-		if($ga['error'] == 1){
-			echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
-			exit();
-		}
-		
+		$pits = number_format($ga['balance'] - $blk, 8);
+		$rak = number_format($pit - $bet, 8);
+		echo"\r                                                                                         \r";
+		echo "LOSE	|| Profit : ".$rak." {$coin}\n";
+		$clos++;
+echo "\rWin Streak : ".$cwin." | Lose Streak : ".$clos." | Ballance : ".$ga['balance']." {$coin}\r";
 			$bet = number_format($bets,8);
 			for ($i= 1; $i <= 100; $i++) { 
 					$bet = number_format((float)$bet +(($cb / 100) * $bet) ,8);
-					$wc = number_format(rand($wcmin,$wcmax),2);
+					$wc = number_format(rand(10,20),2);
 					$nas = 95 / $wc;
 					$gp = number_format($nas, 5);
 					$prof = $gp * 100;
 					$prof = $prof / 100 * $bet;
 					$prof = (int)($prof*100000000) / 100000000;
 					$prof = number_format((float)$prof - $bet,8);
-					$send = "play=true&coin=DOGE&client_seed=RUUFuGsc5lQPgMXdOVo&bet_amt=".$bet."&profit=".$prof."&payout=".$gp."&winning_chance=".$wc."&prediction=1";
+					$send = "play=true&coin=".$coin."&client_seed=RUUFuGsc5lQPgMXdOVo&bet_amt=".$bet."&profit=".$prof."&payout=".$gp."&winning_chance=".$wc."&prediction=1";
 					$ga = json_decode(dices($send, $coki),true);
-					$getpre = number_format(($tot / $blk) * 100, 2);
-					if($ga['balance'] >= $ese){
-						echo"\nHappy Today You Are The Lucky One\nCome back tomorrow, don't push too hard\n";
-						$getpre = number_format(($tot / $blk) * 100, 2);
-						echo"\nPrevious balance : ".$blk." -> Balance Now : ".$ga['balance']."\n\n";
-						exit();
-					}
 					if($ga['error'] == 1){
 						echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
 						exit();
 					}
 					if($ga['win'] == 1){
-						$pits = number_format($pit + $prof, 8);
-						$tot = number_format($ga['balance'] - $blk, 8);
-						$getpre = number_format(($tot / $blk) * 100, 2);
-						echo "WIN	|| Profit : ".$pits." DOGE	|| Ballance : ".$ga['balance']." DOGE\n";
-							if($pits >= $sp){
-								echo "Refresh......\n";
-								if($pits >= $mjake){
-									echo "\nCongratulation Your Get Jakepot \nTotal Income : ".$getpre."% or ".$tot."\n\n";
-									sleep($pr);
-									goto RBS;
-								}
-								goto RBS;
-							}
-							if($ga['balance'] >= $ese){
-								echo"\nHappy Today You Are The Lucky One\nCome back tomorrow, don't push too hard\n";
-								$getpre = number_format(($tot / $blk) * 100, 2);
-								echo"\nPrevious balance : ".$blk." -> Balance Now : ".$ga['balance']."\n\n";
-								exit();
-							}
-							if($ga['error'] == 1){
-								echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
-								exit();
-							}
+						$pits = number_format($ga['balance'] - $blk, 8);
+						$rak = number_format($pit + $prof, 8);
+						echo"\r                                                                                         \r";
+						echo "WIN	|| Profit : ".$rak." {$coin}\n";
+						$cwin++;
+echo "\rWin Streak : ".$cwin." | Lose Streak : ".$clos." | Ballance : ".$ga['balance']." {$coin}\r";
+						if($pits >= $sp){
+							echo "\nCongratulation Your Profit to Target\n\n";
+							exit();
 						}
-					if($ga['win'] == 0){
-						$pits = number_format($pit - $bet, 8);
-						$tot = number_format($ga['balance'] - $blk, 8);
-						$getpre = number_format(($tot / $blk) * 100, 2);
-						echo "LOSE	|| Profit : ".$pits." DOGE	|| Ballance : ".$ga['balance']." DOGE\n";
-							if($pits >= $sp){
-								echo "Refresh......\n";
-								if($pits >= $mjake){
-									echo "\nCongratulation Your Get Jakepot \nTotal Income : ".$getpre."% or ".$tot."\n\n";
-									sleep($pr);
+						if($rak >= $ref){
+							echo"\r                                                                                         \r";
+							echo "Refresh......\n";
+								if($rak >= $mjake){
+									echo "\nCongratulation Your Get Jakepot \nTotal : ".$rak."\n\n";
+									sleep($rg);
 									goto RBS;
 								}
-								goto RBS;
-							}
-							if($ga['balance'] >= $ese){
-								echo"\nHappy Today You Are The Lucky One\nCome back tomorrow, don't push too hard\n";
-								$getpre = number_format(($tot / $blk) * 100, 2);
-								echo"\nPrevious balance : ".$blk." -> Balance Now : ".$ga['balance']."\n\n";
-								exit();
-							}
-							if($ga['error'] == 1){
-								echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
-								exit();
-							}
+							goto RBS;
+						}
+						goto RBS;
+					}
+					if($ga['win'] == 0){
+						$pits = number_format($ga['balance'] - $blk, 8);
+						$rak = number_format($pit - $bet, 8);
+						echo"\r                                                                                         \r";
+						echo "LOSE	|| Profit : ".$rak." {$coin}\n";
+						$clos++;
+echo "\rWin Streak : ".$cwin." | Lose Streak : ".$clos." | Ballance : ".$ga['balance']." {$coin}\r";
 					}
 			}
-	}
-	if($ga['error'] == 1){
-		echo "\nToday Is Your Bad Day, Try Again Tomorrow\nYour balance is not enough\n";
-		exit();
 	}
 }
 }else{
